@@ -1,0 +1,21 @@
+{
+  "author": "Jarrett Gossett <jarrettgossett@gmail.com>",
+  "name": "devpipe_server",
+  "description": "Devpipe Server",
+  "version": "0.0.1",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/CheapDevotion/devpipe_server.git"
+  },
+  "engines": {
+    "node": "~0.6.9"
+  },
+  "dependencies": {
+    "socket.io": ">= 0.0.1",
+    "express": ">= 0.0.1",
+    "hbs": ">= 0.0.1",
+    "alfred": ">= 0.0.1"
+  },
+  "devDependencies": {},
+  "optionalDependencies": {}
+}
