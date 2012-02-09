@@ -1,9 +1,11 @@
-/*jslint undef: true, unparam: true, sloppy: true, maxerr: 50, indent: 4 */
+/*jslint node: true, forin: true, sloppy: true, maxerr: 50, indent: 4 */
 var config  = require('./config.js'),
     express = require('express'),
     storage = require('alfred'),
     app     = express.createServer(),
-    io      = require('socket.io').listen(app);
+    io      = require('socket.io').listen(1001);
+
+require('./lib/string');
 
 // Configure app and sockets
 app.use(express.bodyParser());
@@ -12,23 +14,15 @@ io.configure(function () {
 });
 
 // Return a list of all projects
-app.get('/projects', function (req, res) {
-    console.log('projects...');
-    
-    // io.sockets.emit('projects', {
-    //     projects: JSON.parse(projects)
-    // });
-    
-    storage.open(config.dbPath, function (err, db) {
-        if (err) {
-            throw err;
-        }
-        
-        db.projects.find(function (err, projects) {
-            console.log(err);
-            console.log(projects);
+app.post('/projects/:project', function (req, res) {
+    var i;
+    for (i in req.body) {
+        io.sockets.emit('pipe', {
+            project: req.params.project.capitalize().replace(/_/g, " "),
+            message: JSON.parse(req.body[i])
         });
-    });
+        res.send('status: ok');
+    }
 });
 
 app.listen(1000);
