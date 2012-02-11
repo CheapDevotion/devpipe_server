@@ -7,7 +7,7 @@ require 'uri'
 
 limit = ARGV[0] ? ARGV[0] : 1
 sleep = ARGV[1] ? ARGV[1] : 1
-url   = 'http://api.comicvine.com/characters/?api_key=273a918accce07ba36d71cba674bf7972478df34&limit=' + limit + '&offset=' + rand(50).to_s + '&format=json'
+url   = 'http://api.comicvine.com/characters/?api_key=273a918accce07ba36d71cba674bf7972478df34&limit=' + limit.to_s + '&offset=' + rand(50).to_s + '&format=json'
 json  = Net::HTTP.get_response(URI.parse(url)).body
 data  = JSON.parse(json)
 

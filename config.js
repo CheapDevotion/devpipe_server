@@ -1,3 +1,3 @@
 module.exports = {
-    dbPath: './db'
+    dbPath: __dirname + '/data'
 }

@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 var config   = require('./config.js'),
     alfred   = require('alfred'),
     PROJECTS = {};

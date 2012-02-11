@@ -2,6 +2,7 @@
 var config  = require('./config.js'),
     express = require('express'),
     storage = require('alfred'),
+    fs      = require('fs'),
     app     = express.createServer(),
     io      = require('socket.io').listen(1001);
 
@@ -15,11 +16,18 @@ io.configure(function () {
 
 // Return a list of all projects
 app.post('/projects/:project', function (req, res) {
-    var i;
+    var data, 
+        i;
     for (i in req.body) {
-        io.sockets.emit('pipe', {
+        data = {
             project: req.params.project.capitalize().replace(/_/g, " "),
             message: JSON.parse(req.body[i])
+        };
+        io.sockets.emit('pipe', data);
+        storage.open(config.dbPath, function(err, db) {
+            if (err) {
+                throw err;
+            }
         });
         res.send('status: ok');
     }
