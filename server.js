@@ -6,8 +6,6 @@ var config  = require('./config.js'),
     app     = express.createServer(),
     io      = require('socket.io').listen(1001);
 
-require('./lib/string');
-
 // Configure app and sockets
 app.use(express.bodyParser());
 io.configure(function () {
