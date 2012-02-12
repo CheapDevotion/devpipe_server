@@ -4,14 +4,14 @@ var config  = require('../config.js'),
     storage = require('alfred'),
     fs      = require('fs');
 
-function Initializer () {
+function Setup () {
     this.dbPath = config.dbPath;
 }
 
-Initializer.prototype = new process.EventEmitter();
+Setup.prototype = new process.EventEmitter();
 
 // Make data directory, if it doesn't exist
-Initializer.prototype.createPath = function () {
+Setup.prototype.createPath = function () {
     var that = this;
     
     console.log('Attempting to create data directory...');
@@ -28,7 +28,7 @@ Initializer.prototype.createPath = function () {
     });
 };
 
-Initializer.prototype.ensureCollections = function () {
+Setup.prototype.ensureCollections = function () {
     var that = this;
     
     console.log("\n" + 'Ensuring entries collection...')
@@ -37,29 +37,34 @@ Initializer.prototype.ensureCollections = function () {
             throw err;
         }
     
-        db.ensure('entries', function(err, users_key_map) {
+        db.ensure('entries', function(err, entries) {
             if (err) {
                 throw err;
             }
+            
+            entries.addIndex('project', function(entry) {
+                 return entry;
+              }, function(err) {
+                if (err) throw err;
+            });
             
             that.emit('collectionEnsured');
         });
     });
 };
 
-Initializer.prototype.init = function () {
+Setup.prototype.init = function () {
     this.createPath();
 };
 
-Initializer.prototype.on('pathExists', function () {
+Setup.prototype.on('pathExists', function () {
     this.ensureCollections();
 });
 
-Initializer.prototype.on('collectionEnsured', function () {
+Setup.prototype.on('collectionEnsured', function () {
     console.log('All done.');
     process.exit(1);
 });
 
-var init = new Initializer();
-
-init.init();
+var s = new Setup();
+s.init();
