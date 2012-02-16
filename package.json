@@ -13,7 +13,9 @@
   "dependencies": {
     "socket.io": ">= 0.0.1",
     "express": ">= 0.0.1",
-    "hbs": ">= 0.0.1",
+    "colors": ">= 0.0.1",
+    "commander": ">= 0.0.1",
+    "forever": ">= 0.0.1",
     "alfred": ">= 0.0.1"
   },
   "devDependencies": {},

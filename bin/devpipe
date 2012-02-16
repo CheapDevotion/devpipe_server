@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+var program = require('commander'),
+    forever = require('forever'),
+    setup   = require('../lib/setup');
+
+
+program
+    .version('0.0.1')
+    .command('setup')
+        .description('initial setup, required to run once per installation')
+        .action(function () {
+            setup.init();
+        });
+    
+program
+    .command('start')
+    .action(function () {
+        forever.start('server.js', {
+            max:       1,
+            forever:   true,
+            uid:       'devpipe',
+            command:   'node',
+            sourceDir: 'lib/'
+        });
+        console.log('Devpipe server started');
+    });
+
+program.parse(process.argv);
