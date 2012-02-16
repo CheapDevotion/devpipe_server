@@ -14,7 +14,7 @@ data  = JSON.parse(json)
 data['results'].each do |res|
   p 'Sending ' + res['name'] + ' ....'
   Net::HTTP.post_form(
-    URI.parse("http://localhost:1000/projects/comic_book_characters"),
+    URI.parse("http://localhost:1000/project/comic_book_characters"),
     { :message => res.to_json }
   )
   

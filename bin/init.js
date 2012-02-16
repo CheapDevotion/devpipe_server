@@ -33,16 +33,18 @@ Setup.prototype.ensureCollections = function () {
     
     console.log("\n" + 'Ensuring entries collection...')
     storage.open(config.dbPath, function (err, db) {
-        if (err) {
-            throw err;
-        }
+        if (err) throw err;
     
-        db.ensure('entries', function(err, entries) {
-            if (err) {
-                throw err;
-            }
+        db.ensure('project', function(err, entries) {
+            if (err) throw err;
             
-            entries.addIndex('project', function(entry) {
+            entries.addIndex('entries', function(entry) {
+                 return entry;
+              }, function(err) {
+                if (err) throw err;
+            });
+            
+            entries.addIndex('timestamp', function(entry) {
                  return entry;
               }, function(err) {
                 if (err) throw err;
