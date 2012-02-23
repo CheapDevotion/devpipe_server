@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 var program = require('commander'),
     forever = require('forever'),
-    setup   = require('../lib/setup');
+    setup   = require('../lib/setup'),
+    util    = require('util');
 
 
 program
@@ -15,14 +16,31 @@ program
 program
     .command('start')
     .action(function () {
-        forever.start('server.js', {
+        var proc = new (forever.Monitor)('server.js', {
             max:       1,
             forever:   true,
             uid:       'devpipe',
-            command:   'node',
             sourceDir: 'lib/'
         });
-        console.log('Devpipe server started');
+        
+        proc.start();
+        
+        forever.startServer(proc);
+        
+        util.puts('Devpipe server started');
+    });
+
+program
+    .command('stop')
+    .action(function () {
+        forever.stopAll(false);
+        util.puts('Devpipe server stopped');
+    });
+
+program
+    .command('list')
+    .action(function () {
+
     });
 
 program.parse(process.argv);
